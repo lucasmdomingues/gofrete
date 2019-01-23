@@ -32,8 +32,8 @@
             }
 
             $.ajax({
-                url: "http://localhost:8079/frete/" + CepDestino,
-                method: "",
+                url: "https://gofrete.herokuapp.com/" + CepDestino,
+                method: "get",
                 success: function (response) {
 
                     json = JSON.parse(response);
