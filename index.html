@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            var CepDestino = "02019010";
+
+            var form = {
+                "CdServico": "40010",
+                "CepOrigem": "01107010",
+                "CepDestino": CepDestino,
+                "VlPeso": "0.10",
+                "VlComprimento": "16",
+                "VlAltura": "2",
+                "VlLargura": "10",
+                "VlDiametro": "0",
+                "CdMaoPropria": "N",
+                "VlValorDeclarado": "100",
+            }
+
+            $.ajax({
+                url: "http://localhost:8079/frete/" + CepDestino,
+                method: "",
+                success: function (response) {
+
+                    json = JSON.parse(response);
+                    console.log(json);
+
+                }, error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+
+    </script>
+
+</body>
+
+</html>
