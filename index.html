@@ -10,6 +10,8 @@
 
 <body>
 
+    <div id="message"></div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
     <script>
@@ -32,11 +34,12 @@
             }
 
             $.ajax({
-                url: "https://gofrete.herokuapp.com/" + CepDestino,
+                url: "https://gofrete.herokuapp.com/frete/" + CepDestino,
                 method: "get",
+                data: form,
                 success: function (response) {
 
-                    json = JSON.parse(response);
+                    var json = JSON.parse(response);
                     console.log(json);
 
                 }, error: function (error) {

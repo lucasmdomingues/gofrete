@@ -22,6 +22,17 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	cdServico := r.FormValue("CdServico")
+	cepOrigem := r.FormValue("CepOrigem")
+	CepDestino := r.FormValue("CepDestino")
+	vlPeso := r.FormValue("VlPeso")
+	vlComprimento := r.FormValue("VlComprimento")
+	vlAltura := r.FormValue("VlAltura")
+	vlLargura := r.FormValue("VlLargura")
+	vlDiametro := r.FormValue("VlDiametro")
+	cdMaoPropria := r.FormValue("CdMaoPropria")
+	vlValorDeclarado := r.FormValue("VlValorDeclarado")
+
 	vars := mux.Vars(r)
 
 	cep := vars["cep"]
@@ -33,17 +44,17 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 	frete := &types.Frete{
 		CdEmpresa:          "",
 		DsSenha:            "",
-		CdServico:          "40010",
-		CepOrigem:          "01107010",
-		CepDestino:         cep,
-		VlPeso:             "0.10",
-		CdFormato:          "1",
-		VlComprimento:      "16",
-		VlAltura:           "2",
-		VlLargura:          "10",
-		VlDiametro:         "0",
-		CdMaoPropria:       "N",
-		VlValorDeclarado:   "100",
+		CdServico:          cdServico,
+		CepOrigem:          cepOrigem,
+		CepDestino:         CepDestino,
+		VlPeso:             vlPeso,
+		CdFormato:          "1", // Pacote
+		VlComprimento:      vlComprimento,
+		VlAltura:           vlAltura,
+		VlLargura:          vlLargura,
+		VlDiametro:         vlDiametro,
+		CdMaoPropria:       cdMaoPropria,
+		VlValorDeclarado:   vlValorDeclarado,
 		CdAvisoRecebimento: "N",
 		StrRetorno:         "xml",
 	}
