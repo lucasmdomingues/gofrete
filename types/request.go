@@ -14,6 +14,9 @@ type Request struct {
 
 func (r *Request) SendRequest() ([]byte, error) {
 
+	r.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")
+	r.ResponseWriter.Header().Add("Access-Control-Allow-Credentials", "true")
+
 	resp, err := http.Get(r.Route)
 	if err != nil {
 		return nil, err
