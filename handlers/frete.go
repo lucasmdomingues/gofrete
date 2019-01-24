@@ -9,72 +9,72 @@ import (
 	"net/http"
 )
 
-var l *utils.Log
-
 func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
+	log := utils.Log{}
+
 	if err := r.ParseForm(); err != nil {
-		l.Error(w, err)
+		log.Error(w, err)
 		return
 	}
 
 	cdServico := r.FormValue("CdServico")
 	if len(cdServico) == 0 {
-		l.Info(w, nil, "Código de serviço inválido.")
+		log.Info(w, nil, "Código de serviço inválido.")
 		return
 	}
 
 	cepOrigem := r.FormValue("CepOrigem")
 	if len(cepOrigem) == 0 {
-		l.Info(w, nil, "CEP de origem inválido.")
+		log.Info(w, nil, "CEP de origem inválido.")
 		return
 	}
 
 	CepDestino := r.FormValue("CepDestino")
 	if len(CepDestino) == 0 {
-		l.Info(w, nil, "CEP de destino inválido.")
+		log.Info(w, nil, "CEP de destino inválido.")
 		return
 	}
 
 	vlPeso := r.FormValue("VlPeso")
 	if len(vlPeso) == 0 {
-		l.Info(w, nil, "Valor do peso inválido.")
+		log.Info(w, nil, "Valor do peso inválido.")
 		return
 	}
 
 	vlComprimento := r.FormValue("VlComprimento")
 	if len(vlComprimento) == 0 {
-		l.Info(w, nil, "Valor do comprimento inválido.")
+		log.Info(w, nil, "Valor do comprimento inválido.")
 		return
 	}
 
 	vlAltura := r.FormValue("VlAltura")
 	if len(vlAltura) == 0 {
-		l.Info(w, nil, "Valor da altura inválido.")
+		log.Info(w, nil, "Valor da altura inválido.")
 		return
 	}
 
 	vlLargura := r.FormValue("VlLargura")
 	if len(vlLargura) == 0 {
-		l.Info(w, nil, "Valor da largura inválido.")
+		log.Info(w, nil, "Valor da largura inválido.")
 		return
 	}
 
 	vlDiametro := r.FormValue("VlDiametro")
 	if len(vlDiametro) == 0 {
-		l.Info(w, nil, "Valor do diametro inválido.")
+		log.Info(w, nil, "Valor do diametro inválido.")
 		return
 	}
 
 	cdMaoPropria := r.FormValue("CdMaoPropria")
 	if len(cdMaoPropria) == 0 {
-		l.Info(w, nil, "Código de mão própria inválido")
+		log.Info(w, nil, "Código de mão própria inválido")
 		return
 	}
 
 	vlValorDeclarado := r.FormValue("VlValorDeclarado")
 	if len(cdServico) == 0 {
-		l.Info(w, nil, "Valor do declarado inválido.")
+		log.Info(w, nil, "Valor do declarado inválido.")
 		return
 	}
 
@@ -102,7 +102,7 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
 	data, err := utils.MakeRequest(w, route)
 	if err != nil {
-		l.Error(w, err)
+		log.Error(w, err)
 		return
 	}
 
@@ -110,13 +110,13 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
 	err = xml.Unmarshal(data, &resultado)
 	if err != nil {
-		l.Error(w, err)
+		log.Error(w, err)
 		return
 	}
 
 	json, err := json.Marshal(resultado)
 	if err != nil {
-		l.Error(w, err)
+		log.Error(w, err)
 		return
 	}
 

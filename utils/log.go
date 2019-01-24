@@ -2,7 +2,7 @@ package utils
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
 )
 
@@ -11,12 +11,12 @@ type Log struct {
 	Message string      `json:"message"`
 }
 
-func (l *Log) Info(w http.ResponseWriter, data interface{}, message string) {
+func (log *Log) Info(w http.ResponseWriter, data interface{}, message string) {
 
-	l.Data = data
-	l.Message = message
+	log.Data = data
+	log.Message = message
 
-	json, err := json.Marshal(l)
+	json, err := json.Marshal(log)
 	if err != nil {
 		w.Write([]byte(json))
 		return
@@ -25,7 +25,7 @@ func (l *Log) Info(w http.ResponseWriter, data interface{}, message string) {
 	w.Write([]byte(json))
 }
 
-func (l *Log) Error(w http.ResponseWriter, err error) {
-	log.Printf("Error: %+v", err)
+func (log *Log) Error(w http.ResponseWriter, err error) {
+	fmt.Printf("Error: %+v", err)
 	http.Error(w, http.StatusText(500), 500)
 }
