@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-var l utils.Log
+var l *utils.Log
 
 func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -19,61 +19,61 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cdServico := r.FormValue("CdServico")
-	if cdServico == "" {
+	if len(cdServico) == 0 {
 		l.Info(w, nil, "Código de serviço inválido.")
 		return
 	}
 
 	cepOrigem := r.FormValue("CepOrigem")
-	if cepOrigem == "" {
+	if len(cepOrigem) == 0 {
 		l.Info(w, nil, "CEP de origem inválido.")
 		return
 	}
 
 	CepDestino := r.FormValue("CepDestino")
-	if CepDestino == "" {
+	if len(CepDestino) == 0 {
 		l.Info(w, nil, "CEP de destino inválido.")
 		return
 	}
 
 	vlPeso := r.FormValue("VlPeso")
-	if vlPeso == "" {
+	if len(vlPeso) == 0 {
 		l.Info(w, nil, "Valor do peso inválido.")
 		return
 	}
 
 	vlComprimento := r.FormValue("VlComprimento")
-	if vlComprimento == "" {
+	if len(vlComprimento) == 0 {
 		l.Info(w, nil, "Valor do comprimento inválido.")
 		return
 	}
 
 	vlAltura := r.FormValue("VlAltura")
-	if vlAltura == "" {
+	if len(vlAltura) == 0 {
 		l.Info(w, nil, "Valor da altura inválido.")
 		return
 	}
 
 	vlLargura := r.FormValue("VlLargura")
-	if vlLargura == "" {
+	if len(vlLargura) == 0 {
 		l.Info(w, nil, "Valor da largura inválido.")
 		return
 	}
 
 	vlDiametro := r.FormValue("VlDiametro")
-	if vlDiametro == "" {
+	if len(vlDiametro) == 0 {
 		l.Info(w, nil, "Valor do diametro inválido.")
 		return
 	}
 
 	cdMaoPropria := r.FormValue("CdMaoPropria")
-	if cdMaoPropria == "" {
+	if len(cdMaoPropria) == 0 {
 		l.Info(w, nil, "Código de mão própria inválido")
 		return
 	}
 
 	vlValorDeclarado := r.FormValue("VlValorDeclarado")
-	if cdServico == "" {
+	if len(cdServico) == 0 {
 		l.Info(w, nil, "Valor do declarado inválido.")
 		return
 	}
@@ -86,7 +86,7 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 			CepOrigem:          cepOrigem,
 			CepDestino:         CepDestino,
 			VlPeso:             vlPeso,
-			CdFormato:          "1", // Pacote
+			CdFormato:          "1",
 			VlComprimento:      vlComprimento,
 			VlAltura:           vlAltura,
 			VlLargura:          vlLargura,
