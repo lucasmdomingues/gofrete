@@ -72,7 +72,11 @@ func (f *Frete) MakeURL() string {
 
 	url := WSCORREIOS_FRETE
 	for key, value := range values {
-		url += fmt.Sprintf("%s=%s&", key, value)
+		if key == "StrRetorno" {
+			url += fmt.Sprintf("%s=%s", key, value)
+		} else {
+			url += fmt.Sprintf("%s=%s&", key, value)
+		}
 	}
 
 	return url
