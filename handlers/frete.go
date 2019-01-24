@@ -19,61 +19,61 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cdServico := r.FormValue("CdServico")
-	if len(cdServico) == 0 {
+	if cdServico == "" {
 		log.Info(w, nil, "Código de serviço inválido.")
 		return
 	}
 
 	cepOrigem := r.FormValue("CepOrigem")
-	if len(cepOrigem) == 0 {
+	if cepOrigem == "" {
 		log.Info(w, nil, "CEP de origem inválido.")
 		return
 	}
 
 	CepDestino := r.FormValue("CepDestino")
-	if len(CepDestino) == 0 {
+	if CepDestino == "" {
 		log.Info(w, nil, "CEP de destino inválido.")
 		return
 	}
 
 	vlPeso := r.FormValue("VlPeso")
-	if len(vlPeso) == 0 {
+	if vlPeso == "" {
 		log.Info(w, nil, "Valor do peso inválido.")
 		return
 	}
 
 	vlComprimento := r.FormValue("VlComprimento")
-	if len(vlComprimento) == 0 {
+	if vlComprimento == "" {
 		log.Info(w, nil, "Valor do comprimento inválido.")
 		return
 	}
 
 	vlAltura := r.FormValue("VlAltura")
-	if len(vlAltura) == 0 {
+	if vlAltura == "" {
 		log.Info(w, nil, "Valor da altura inválido.")
 		return
 	}
 
 	vlLargura := r.FormValue("VlLargura")
-	if len(vlLargura) == 0 {
+	if vlLargura == "" {
 		log.Info(w, nil, "Valor da largura inválido.")
 		return
 	}
 
 	vlDiametro := r.FormValue("VlDiametro")
-	if len(vlDiametro) == 0 {
+	if vlDiametro == "" {
 		log.Info(w, nil, "Valor do diametro inválido.")
 		return
 	}
 
 	cdMaoPropria := r.FormValue("CdMaoPropria")
-	if len(cdMaoPropria) == 0 {
+	if cdMaoPropria == "" {
 		log.Info(w, nil, "Código de mão própria inválido")
 		return
 	}
 
 	vlValorDeclarado := r.FormValue("VlValorDeclarado")
-	if len(cdServico) == 0 {
+	if vlValorDeclarado == "" {
 		log.Info(w, nil, "Valor do declarado inválido.")
 		return
 	}
