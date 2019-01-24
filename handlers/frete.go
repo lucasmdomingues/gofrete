@@ -79,7 +79,7 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
 	vlValorDeclarado := r.FormValue("VlValorDeclarado")
 	if vlValorDeclarado == "" {
-		log.Info(w, nil, "Valor do declarado inválido.")
+		log.Info(w, nil, "Valor declarado inválido.")
 		return
 	}
 
