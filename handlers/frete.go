@@ -87,6 +87,7 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 	cdAvisoRecebimento := r.FormValue("CdAvisoRecebimento")
 	if cdAvisoRecebimento == "" {
 		log.Info(w, nil, "Aviso de recebimento inválido.")
+		return
 	}
 
 	correios := &types.Correios{
