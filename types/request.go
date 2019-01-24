@@ -3,7 +3,6 @@ package types
 import (
 	"bytes"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -25,17 +24,17 @@ func (r *Request) SendRequest() ([]byte, error) {
 
 	request, err := http.NewRequest(r.Method, r.Route, values)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
 	return body, nil
