@@ -106,9 +106,9 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resultado := &types.Resultado{}
+	resultado := types.Resultado{}
 
-	err = xml.Unmarshal(data, resultado)
+	err = xml.Unmarshal(data, &resultado)
 	if err != nil {
 		l.Error(w, err)
 		return
