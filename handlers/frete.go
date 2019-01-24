@@ -18,18 +18,6 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cdEmpresa := r.FormValue("CdEmpresa")
-	if cdEmpresa == "" {
-		log.Info(w, nil, "Código da empresa inválido.")
-		return
-	}
-
-	dsSenha := r.FormValue("DsSenha")
-	if dsSenha == "" {
-		log.Info(w, nil, "Senha da empresa inválida.")
-		return
-	}
-
 	cdServico := r.FormValue("CdServico")
 	if cdServico == "" {
 		log.Info(w, nil, "Código de serviço inválido.")
@@ -103,8 +91,8 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
 	correios := &types.Correios{
 		Frete: &types.Frete{
-			CdEmpresa:          cdEmpresa,
-			DsSenha:            dsSenha,
+			CdEmpresa:          "",
+			DsSenha:            "",
 			CdServico:          cdServico,
 			CepOrigem:          cepOrigem,
 			CepDestino:         CepDestino,
