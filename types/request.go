@@ -1,8 +1,6 @@
 package types
 
 import (
-	"bytes"
-	"io"
 	"io/ioutil"
 	"net/http"
 )
@@ -16,19 +14,7 @@ type Request struct {
 
 func (r *Request) SendRequest() ([]byte, error) {
 
-	client := http.Client{}
-
-	var values io.Reader
-	if r.Values != nil {
-		values = bytes.NewBuffer(r.Values)
-	}
-
-	request, err := http.NewRequest(r.Method, r.Route, values)
-	if err != nil {
-		return nil, err
-	}
-
-	resp, err := client.Do(request)
+	resp, err := http.Get(r.Route)
 	if err != nil {
 		return nil, err
 	}
