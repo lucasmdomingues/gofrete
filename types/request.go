@@ -1,7 +1,9 @@
 package types
 
 import (
+	"bytes"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -14,22 +16,21 @@ type Request struct {
 
 func (r *Request) SendRequest() ([]byte, error) {
 
-	r.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")
-	r.ResponseWriter.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-	r.ResponseWriter.Header().Add("Access-Control-Allow-Credentials", "true")
-
 	client := http.Client{}
 
-	resp, err := client.Get(r.Route)
+	request, err := http.NewRequest(r.Method, r.Route, bytes.NewBuffer(r.Values))
 	if err != nil {
-		return nil, err
+		log.Fatalln(err)
 	}
 
-	defer resp.Body.Close()
+	resp, err := client.Do(request)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		log.Fatalln(err)
 	}
 
 	return body, nil

@@ -92,6 +92,8 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 	correios := types.Correios{}
 
 	frete := &types.Frete{
+		CdEmpresa:          "",
+		DsSenha:            "",
 		CdServico:          cdServico,
 		CepOrigem:          cepOrigem,
 		CepDestino:         CepDestino,

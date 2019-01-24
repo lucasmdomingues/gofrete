@@ -54,8 +54,8 @@ func (f *Frete) MakeURL() string {
 
 	values := make(map[string]string)
 
-	values["nCdEmpresa"] = ""
-	values["sDsSenha"] = ""
+	values["nCdEmpresa"] = f.CdEmpresa
+	values["sDsSenha"] = f.DsSenha
 	values["nCdServico"] = f.CdServico
 	values["sCepOrigem"] = f.CepOrigem
 	values["sCepDestino"] = f.CepDestino
