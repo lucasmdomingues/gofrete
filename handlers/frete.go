@@ -29,8 +29,8 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	CepDestino := r.FormValue("CepDestino")
-	if CepDestino == "" {
+	cepDestino := r.FormValue("CepDestino")
+	if cepDestino == "" {
 		log.Info(w, nil, "CEP de destino inválido.")
 		return
 	}
@@ -96,7 +96,7 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		DsSenha:            "",
 		CdServico:          cdServico,
 		CepOrigem:          cepOrigem,
-		CepDestino:         CepDestino,
+		CepDestino:         cepDestino,
 		VlPeso:             vlPeso,
 		CdFormato:          cdFormato,
 		VlComprimento:      vlComprimento,
