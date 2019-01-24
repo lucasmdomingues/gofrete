@@ -2,6 +2,7 @@ package types
 
 import (
 	"bytes"
+	"io"
 	"io/ioutil"
 	"net/http"
 )
@@ -17,7 +18,7 @@ func (r *Request) SendRequest() ([]byte, error) {
 
 	client := http.Client{}
 
-	var values *bytes.Buffer
+	var values io.Reader
 	if r.Values != nil {
 		values = bytes.NewBuffer(r.Values)
 	}
