@@ -89,7 +89,7 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	correios := &types.Correios{}
+	correios := types.Correios{}
 
 	frete := &types.Frete{
 		CdServico:          cdServico,
@@ -110,7 +110,7 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
 	route := correios.Frete.MakeURL()
 
-	request := types.Request{
+	request := &types.Request{
 		ResponseWriter: w,
 		Route:          route,
 		Method:         "GET",
