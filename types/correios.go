@@ -1,6 +1,15 @@
 package types
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+)
+
+const CORREIOS_URL = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?"
+
+type Correios struct {
+	Frete *Frete
+}
 
 type Frete struct {
 	CdEmpresa          string `xml:"nCdEmpresa"`
@@ -43,4 +52,15 @@ type Servico struct {
 	MsgErro               string `xml:"MsgErro"`
 	ValorSemAdicionais    string `xml:"ValorSemAdicionais"`
 	ObsFim                string `xml:"obsFim"`
+}
+
+func (f *Frete) PopulateURL() string {
+
+	url := fmt.Sprintf(CORREIOS_URL+"nCdEmpresa=%s&sDsSenha=%s&nCdServico=%s&sCepOrigem=%s&sCepDestino=%s&nVlPeso=%s&nCdFormato=%s&"+
+		"nVlComprimento=%s&nVlAltura=%s&nVlLargura=%s&nVlDiametro=%s&sCdMaoPropria=%s&nVlValorDeclarado=%s&sCdAvisoRecebimento=%s&StrRetorno=%s",
+		f.CdEmpresa, f.DsSenha, f.CdServico, f.CepOrigem, f.CepDestino, f.VlPeso, f.CdFormato, f.VlComprimento,
+		f.VlAltura, f.VlLargura, f.VlDiametro, f.CdMaoPropria, f.VlValorDeclarado, f.CdAvisoRecebimento, f.StrRetorno,
+	)
+
+	return url
 }

@@ -18,7 +18,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", handlers.HandlerHome)
-	r.HandleFunc("/frete/{cep}", handlers.FreteHandler).Methods("GET")
+	r.HandleFunc("/frete", handlers.FreteHandler).Methods("GET")
 
 	http.ListenAndServe(":"+port, r)
 }

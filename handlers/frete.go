@@ -7,13 +7,9 @@ import (
 	"gofrete/types"
 	"gofrete/utils"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 var l utils.Log
-
-const CORREIOS = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?"
 
 func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -23,47 +19,86 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cdServico := r.FormValue("CdServico")
-	cepOrigem := r.FormValue("CepOrigem")
-	CepDestino := r.FormValue("CepDestino")
-	vlPeso := r.FormValue("VlPeso")
-	vlComprimento := r.FormValue("VlComprimento")
-	vlAltura := r.FormValue("VlAltura")
-	vlLargura := r.FormValue("VlLargura")
-	vlDiametro := r.FormValue("VlDiametro")
-	cdMaoPropria := r.FormValue("CdMaoPropria")
-	vlValorDeclarado := r.FormValue("VlValorDeclarado")
-
-	vars := mux.Vars(r)
-
-	cep := vars["cep"]
-	if cep == "" || len(cep) < 8 {
-		l.Info(w, nil, "CEP is required")
+	if cdServico == "" {
+		l.Info(w, nil, "Código de serviço inválido.")
 		return
 	}
 
-	frete := &types.Frete{
-		CdEmpresa:          "",
-		DsSenha:            "",
-		CdServico:          cdServico,
-		CepOrigem:          cepOrigem,
-		CepDestino:         CepDestino,
-		VlPeso:             vlPeso,
-		CdFormato:          "1", // Pacote
-		VlComprimento:      vlComprimento,
-		VlAltura:           vlAltura,
-		VlLargura:          vlLargura,
-		VlDiametro:         vlDiametro,
-		CdMaoPropria:       cdMaoPropria,
-		VlValorDeclarado:   vlValorDeclarado,
-		CdAvisoRecebimento: "N",
-		StrRetorno:         "xml",
+	cepOrigem := r.FormValue("CepOrigem")
+	if cepOrigem == "" {
+		l.Info(w, nil, "CEP de origem inválido.")
+		return
 	}
 
-	route := fmt.Sprintf(CORREIOS+"nCdEmpresa=%s&sDsSenha=%s&nCdServico=%s&sCepOrigem=%s&sCepDestino=%s&nVlPeso=%s&nCdFormato=%s&"+
-		"nVlComprimento=%s&nVlAltura=%s&nVlLargura=%s&nVlDiametro=%s&sCdMaoPropria=%s&nVlValorDeclarado=%s&sCdAvisoRecebimento=%s&StrRetorno=%s",
-		frete.CdEmpresa, frete.DsSenha, frete.CdServico, frete.CepOrigem, frete.CepDestino, frete.VlPeso, frete.CdFormato, frete.VlComprimento,
-		frete.VlAltura, frete.VlLargura, frete.VlDiametro, frete.CdMaoPropria, frete.VlValorDeclarado, frete.CdAvisoRecebimento, frete.StrRetorno,
-	)
+	CepDestino := r.FormValue("CepDestino")
+	if CepDestino == "" {
+		l.Info(w, nil, "CEP de destino inválido.")
+		return
+	}
+
+	vlPeso := r.FormValue("VlPeso")
+	if vlPeso == "" {
+		l.Info(w, nil, "Valor do peso inválido.")
+		return
+	}
+
+	vlComprimento := r.FormValue("VlComprimento")
+	if vlComprimento == "" {
+		l.Info(w, nil, "Valor do comprimento inválido.")
+		return
+	}
+
+	vlAltura := r.FormValue("VlAltura")
+	if vlAltura == "" {
+		l.Info(w, nil, "Valor da altura inválido.")
+		return
+	}
+
+	vlLargura := r.FormValue("VlLargura")
+	if vlLargura == "" {
+		l.Info(w, nil, "Valor da largura inválido.")
+		return
+	}
+
+	vlDiametro := r.FormValue("VlDiametro")
+	if vlDiametro == "" {
+		l.Info(w, nil, "Valor do diametro inválido.")
+		return
+	}
+
+	cdMaoPropria := r.FormValue("CdMaoPropria")
+	if cdMaoPropria == "" {
+		l.Info(w, nil, "Código de mão própria inválido")
+		return
+	}
+
+	vlValorDeclarado := r.FormValue("VlValorDeclarado")
+	if cdServico == "" {
+		l.Info(w, nil, "Valor do declarado inválido.")
+		return
+	}
+
+	correios := &types.Correios{
+		Frete: &types.Frete{
+			CdEmpresa:          "",
+			DsSenha:            "",
+			CdServico:          cdServico,
+			CepOrigem:          cepOrigem,
+			CepDestino:         CepDestino,
+			VlPeso:             vlPeso,
+			CdFormato:          "1", // Pacote
+			VlComprimento:      vlComprimento,
+			VlAltura:           vlAltura,
+			VlLargura:          vlLargura,
+			VlDiametro:         vlDiametro,
+			CdMaoPropria:       cdMaoPropria,
+			VlValorDeclarado:   vlValorDeclarado,
+			CdAvisoRecebimento: "N",
+			StrRetorno:         "xml",
+		},
+	}
+
+	route := correios.Frete.PopulateURL()
 
 	data, err := utils.MakeRequest(w, route)
 	if err != nil {
@@ -71,9 +106,9 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resultado := types.Resultado{}
+	resultado := &types.Resultado{}
 
-	err = xml.Unmarshal(data, &resultado)
+	err = xml.Unmarshal(data, resultado)
 	if err != nil {
 		l.Error(w, err)
 		return
