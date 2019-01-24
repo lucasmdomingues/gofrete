@@ -1,6 +1,8 @@
 package types
 
 import (
+	"bytes"
+	"io"
 	"io/ioutil"
 	"net/http"
 )
@@ -17,7 +19,17 @@ func (r *Request) SendRequest() ([]byte, error) {
 	r.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")
 	r.ResponseWriter.Header().Add("Access-Control-Allow-Credentials", "true")
 
-	req, err := http.NewRequest(r.Method, r.Route, nil)
+	var values io.Reader
+	if r.Values == nil {
+		values = nil
+	} else {
+		values = bytes.NewBuffer(r.Values)
+	}
+
+	req, err := http.NewRequest(r.Method, r.Route, values)
+	if err != nil {
+		return nil, err
+	}
 
 	client := &http.Client{}
 
