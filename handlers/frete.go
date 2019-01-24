@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"GoFrete/types"
-	"GoFrete/utils"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
@@ -11,7 +10,7 @@ import (
 
 func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
-	log := utils.Log{}
+	log := types.Log{}
 
 	if err := r.ParseForm(); err != nil {
 		log.Error(w, err)
@@ -90,28 +89,35 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	correios := &types.Correios{
-		Frete: &types.Frete{
-			CdEmpresa:          "",
-			DsSenha:            "",
-			CdServico:          cdServico,
-			CepOrigem:          cepOrigem,
-			CepDestino:         CepDestino,
-			VlPeso:             vlPeso,
-			CdFormato:          cdFormato,
-			VlComprimento:      vlComprimento,
-			VlAltura:           vlAltura,
-			VlLargura:          vlLargura,
-			VlDiametro:         vlDiametro,
-			CdMaoPropria:       cdMaoPropria,
-			VlValorDeclarado:   vlValorDeclarado,
-			CdAvisoRecebimento: cdAvisoRecebimento,
-		},
+	correios := &types.Correios{}
+
+	frete := &types.Frete{
+		CdServico:          cdServico,
+		CepOrigem:          cepOrigem,
+		CepDestino:         CepDestino,
+		VlPeso:             vlPeso,
+		CdFormato:          cdFormato,
+		VlComprimento:      vlComprimento,
+		VlAltura:           vlAltura,
+		VlLargura:          vlLargura,
+		VlDiametro:         vlDiametro,
+		CdMaoPropria:       cdMaoPropria,
+		VlValorDeclarado:   vlValorDeclarado,
+		CdAvisoRecebimento: cdAvisoRecebimento,
 	}
+
+	correios.Frete = frete
 
 	route := correios.Frete.MakeURL()
 
-	data, err := utils.MakeRequest(w, route)
+	request := types.Request{
+		ResponseWriter: w,
+		Route:          route,
+		Method:         "GET",
+		Values:         nil,
+	}
+
+	data, err := request.SendRequest()
 	if err != nil {
 		log.Error(w, err)
 		return
