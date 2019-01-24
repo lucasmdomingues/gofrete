@@ -114,7 +114,7 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json, err := json.Marshal(resultado)
+	json, err := json.Marshal(resultado.Servicos.Servico[0])
 	if err != nil {
 		log.Error(w, err)
 		return
