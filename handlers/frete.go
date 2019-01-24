@@ -105,7 +105,6 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 			CdMaoPropria:       cdMaoPropria,
 			VlValorDeclarado:   vlValorDeclarado,
 			CdAvisoRecebimento: cdAvisoRecebimento,
-			StrRetorno:         "xml",
 		},
 	}
 

@@ -54,8 +54,8 @@ func (f *Frete) MakeURL() string {
 
 	values := make(map[string]string)
 
-	values["nCdEmpresa"] = f.CdEmpresa
-	values["sDsSenha"] = f.DsSenha
+	values["nCdEmpresa"] = ""
+	values["sDsSenha"] = ""
 	values["nCdServico"] = f.CdServico
 	values["sCepOrigem"] = f.CepOrigem
 	values["sCepDestino"] = f.CepDestino
@@ -68,7 +68,7 @@ func (f *Frete) MakeURL() string {
 	values["sCdMaoPropria"] = f.CdMaoPropria
 	values["nVlValorDeclarado"] = f.VlValorDeclarado
 	values["sCdAvisoRecebimento"] = f.CdAvisoRecebimento
-	values["StrRetorno"] = f.StrRetorno
+	values["StrRetorno"] = "xml"
 
 	url := WSCORREIOS_FRETE
 	for key, value := range values {
