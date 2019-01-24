@@ -110,7 +110,11 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
 	correios.Frete = frete
 
+	fmt.Println(">>>>>>>>>>>>>>>>>", correios.Frete)
+
 	route := correios.Frete.MakeURL()
+
+	fmt.Println(">>>>>>>>>>>>>>>>>", route)
 
 	request := &types.Request{
 		ResponseWriter: w,
@@ -118,6 +122,8 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		Method:         "GET",
 		Values:         nil,
 	}
+
+	fmt.Println(">>>>>>>>>>>>>>>>>", request)
 
 	data, err := request.SendRequest()
 	if err != nil {
