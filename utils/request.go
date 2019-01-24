@@ -18,6 +18,8 @@ func MakeRequest(w http.ResponseWriter, route string) ([]byte, error) {
 		return nil, err
 	}
 
+	defer resp.Body.Close()
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
