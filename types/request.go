@@ -18,7 +18,12 @@ func (r *Request) SendRequest() ([]byte, error) {
 
 	client := http.Client{}
 
-	request, err := http.NewRequest(r.Method, r.Route, bytes.NewBuffer(r.Values))
+	var values *bytes.Buffer
+	if r.Values != nil {
+		values = bytes.NewBuffer(r.Values)
+	}
+
+	request, err := http.NewRequest(r.Method, r.Route, values)
 	if err != nil {
 		log.Fatalln(err)
 	}

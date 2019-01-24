@@ -125,15 +125,17 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(">>>>>>>>>>>>>>>>>", request)
 
-	data, err := request.SendRequest()
+	response, err := request.SendRequest()
 	if err != nil {
 		log.Error(w, err)
 		return
 	}
 
+	fmt.Println(">>>>>>>>>>>>>>>>>", response)
+
 	resultado := types.Resultado{}
 
-	err = xml.Unmarshal(data, &resultado)
+	err = xml.Unmarshal(response, &resultado)
 	if err != nil {
 		log.Error(w, err)
 		return
