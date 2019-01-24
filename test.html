@@ -14,37 +14,35 @@
 
     <script>
 
-        $(document).ready(function () {
+        var form = {
+            "CdServico": "40010",
+            "CepOrigem": "01107010",
+            "CepDestino": "02019010",
+            "VlPeso": "0.10",
+            "CdFormato": "1",
+            "VlComprimento": "17",
+            "VlAltura": "2",
+            "VlLargura": "11",
+            "VlDiametro": "0",
+            "CdMaoPropria": "N",
+            "VlValorDeclarado": "100",
+            "CdAvisoRecebimento": "N",
+        }
 
-            var form = {
-                "CdServico": "40010",
-                "CepOrigem": "01107010",
-                "CepDestino": "02019010",
-                "VlPeso": "0.10",
-                "CdFormato": "1",
-                "VlComprimento": "16",
-                "VlAltura": "2",
-                "VlLargura": "11",
-                "VlDiametro": "0",
-                "CdMaoPropria": "N",
-                "VlValorDeclarado": "100",
-                "CdAvisoRecebimento": "N",
+        $.ajax({
+            url: "https://GoFrete.herokuapp.com/frete",
+            method: "get",
+            data: form,
+            success: function (response) {
+
+                var json = JSON.parse(response);
+                console.log(json);
+
+            }, error: function (error) {
+                console.log(error);
             }
-
-            $.ajax({
-                url: "https://GoFrete.herokuapp.com/frete",
-                method: "get",
-                data: form,
-                success: function (response) {
-
-                    var json = JSON.parse(response);
-                    console.log(json);
-
-                }, error: function (error) {
-                    console.log(error);
-                }
-            });
         });
+
 
     </script>
 

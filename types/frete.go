@@ -61,7 +61,7 @@ func (f *Frete) MakeURL() string {
 	values["sCepDestino"] = f.CepDestino
 	values["nVlPeso"] = f.VlPeso
 	values["nCdFormato"] = f.CdFormato
-	values["nVlComprimento"] = f.CdFormato
+	values["nVlComprimento"] = f.VlComprimento
 	values["nVlAltura"] = f.VlAltura
 	values["nVlLargura"] = f.VlLargura
 	values["nVlDiametro"] = f.VlDiametro
