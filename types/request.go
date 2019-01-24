@@ -1,7 +1,6 @@
 package types
 
 import (
-	"bytes"
 	"io/ioutil"
 	"net/http"
 )
@@ -18,8 +17,7 @@ func (r *Request) SendRequest() ([]byte, error) {
 	r.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")
 	r.ResponseWriter.Header().Add("Access-Control-Allow-Credentials", "true")
 
-	req, err := http.NewRequest(r.Method, r.Route, bytes.NewBuffer(r.Values))
-	req.Header.Set("Content-Type", "application/json")
+	req, err := http.NewRequest(r.Method, r.Route, nil)
 
 	client := &http.Client{}
 
