@@ -131,7 +131,7 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(">>>>>>>>>>>>>>>>>", response)
+	fmt.Println(">>>>>>>>>>>>>>>>>", string(response))
 
 	resultado := types.Resultado{}
 
@@ -140,6 +140,8 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		log.Error(w, err)
 		return
 	}
+
+	fmt.Println(">>>>>>>>>>>>>>>>>", resultado)
 
 	json, err := json.Marshal(resultado.Servicos.Servico[0])
 	if err != nil {
