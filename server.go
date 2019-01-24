@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gofrete/handlers"
+	"GoFrete/handlers"
 	"net/http"
 	"os"
 

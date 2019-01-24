@@ -10,31 +10,31 @@
 
 <body>
 
-    <div id="message"></div>
-
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
     <script>
 
         $(document).ready(function () {
 
-            var CepDestino = "02019010";
-
             var form = {
+                "CdEmpresa": "",
+                "DsSenha": "",
                 "CdServico": "40010",
                 "CepOrigem": "01107010",
-                "CepDestino": CepDestino,
+                "CepDestino": "07748415",
                 "VlPeso": "0.10",
+                "CdFormato": "1",
                 "VlComprimento": "16",
                 "VlAltura": "2",
                 "VlLargura": "10",
                 "VlDiametro": "0",
                 "CdMaoPropria": "N",
                 "VlValorDeclarado": "100",
+                "CdAvisoRecebimento": "S",
             }
 
             $.ajax({
-                url: "https://gofrete.herokuapp.com/frete",
+                url: "https://GoFrete.herokuapp.com/frete",
                 method: "get",
                 data: form,
                 success: function (response) {

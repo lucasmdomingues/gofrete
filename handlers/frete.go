@@ -1,11 +1,11 @@
 package handlers
 
 import (
+	"GoFrete/types"
+	"GoFrete/utils"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"gofrete/types"
-	"gofrete/utils"
 	"net/http"
 )
 
@@ -15,6 +15,18 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err := r.ParseForm(); err != nil {
 		log.Error(w, err)
+		return
+	}
+
+	cdEmpresa := r.FormValue("CdEmpresa")
+	if cdEmpresa == "" {
+		log.Info(w, nil, "Código da empresa inválido.")
+		return
+	}
+
+	dsSenha := r.FormValue("DsSenha")
+	if dsSenha == "" {
+		log.Info(w, nil, "Senha da empresa inválida.")
 		return
 	}
 
@@ -39,6 +51,12 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 	vlPeso := r.FormValue("VlPeso")
 	if vlPeso == "" {
 		log.Info(w, nil, "Valor do peso inválido.")
+		return
+	}
+
+	cdFormato := r.FormValue("CdFormato")
+	if cdFormato == "" {
+		log.Info(w, nil, "Código de formato inválido.")
 		return
 	}
 
@@ -78,27 +96,32 @@ func FreteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	cdAvisoRecebimento := r.FormValue("CdAvisoRecebimento")
+	if cdAvisoRecebimento == "" {
+		log.Info(w, nil, "Aviso de recebimento inválido.")
+	}
+
 	correios := &types.Correios{
 		Frete: &types.Frete{
-			CdEmpresa:          "",
-			DsSenha:            "",
+			CdEmpresa:          cdEmpresa,
+			DsSenha:            dsSenha,
 			CdServico:          cdServico,
 			CepOrigem:          cepOrigem,
 			CepDestino:         CepDestino,
 			VlPeso:             vlPeso,
-			CdFormato:          "1",
+			CdFormato:          cdFormato,
 			VlComprimento:      vlComprimento,
 			VlAltura:           vlAltura,
 			VlLargura:          vlLargura,
 			VlDiametro:         vlDiametro,
 			CdMaoPropria:       cdMaoPropria,
 			VlValorDeclarado:   vlValorDeclarado,
-			CdAvisoRecebimento: "N",
+			CdAvisoRecebimento: cdAvisoRecebimento,
 			StrRetorno:         "xml",
 		},
 	}
 
-	route := correios.Frete.PopulateURL()
+	route := correios.Frete.MakeURL()
 
 	data, err := utils.MakeRequest(w, route)
 	if err != nil {
