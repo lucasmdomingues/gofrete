@@ -39,6 +39,9 @@ func (r *Request) SendRequest() ([]byte, error) {
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
 
 	return body, nil
 }
