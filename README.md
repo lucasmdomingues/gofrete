@@ -11,7 +11,7 @@ CepDestino=11111111 (Obs: Utilize um CEP sem caracteres especiais)
 
 VlPeso=0.100 (Obs: O correios utiliza o formato de gramas para calcular o peso.)
 
-CdFormato=1
+CdFormato=1 (Obs: 1 -> Formato caixa/pacote,2 -> Formato rolo/prisma,3 -> Envelope)
 
 VlComprimento=11
 
@@ -21,8 +21,8 @@ VlLargura=11
 
 VlDiametro=11
 
-CdMaoPropria=S
+CdMaoPropria=S (Obs: S ou N)
 
 VlValorDeclarado=100
 
-CdAvisoRecebimento=S
+CdAvisoRecebimento=S (Obs: S ou N)
