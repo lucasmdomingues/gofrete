@@ -1,7 +1,7 @@
 # Como utilizar ?
 
 - Envie um requisição GET para https://gofrete.herokuapp.com/frete
-- Para calcular o frete os parâmetros que devem ser enviados devem possuir os nomes obrigatóriamente iguais ao exemplo abaixo:
+- Para calcular o frete os parâmetros devem possuir os nomes obrigatóriamente iguais ao exemplo abaixo:
 
 CdEmpresa= Código da sua empresa (Obs: Caso não possuir deixar em branco)
 
