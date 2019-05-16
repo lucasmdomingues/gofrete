@@ -1,13 +1,14 @@
 package gofrete
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 )
 
-func CalcFrete(frete *Frete) (*Resultado, error) {
+func (frete *Frete) CalcFrete() (*Resultado, error) {
 
 	url := frete.NewURL()
 
@@ -26,7 +27,7 @@ func CalcFrete(frete *Frete) (*Resultado, error) {
 	}
 
 	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("Error: %s, Try again.", resp.Status)
+		return nil, fmt.Errorf("Erro: %s", resp.Status)
 	}
 
 	defer resp.Body.Close()
@@ -42,9 +43,19 @@ func CalcFrete(frete *Frete) (*Resultado, error) {
 		return nil, err
 	}
 
-	if resultado.Servicos.Servico[0].MsgErro != "" {
-		return nil, fmt.Errorf("Error: %s", resultado.Servicos.Servico[0].MsgErro)
+	if resultado.Servicos.Servico[0].Erro != "0" && resultado.Servicos.Servico[0].Erro != "011" {
+		return nil, fmt.Errorf("Erro: %s", resultado.Servicos.Servico[0].MsgErro)
 	}
 
 	return &resultado, nil
+}
+
+func (r *Resultado) JSON() (string, error) {
+
+	bytes, err := json.Marshal(r.Servicos.Servico[0])
+	if err != nil {
+		return "Error on parse json", err
+	}
+
+	return string(bytes), nil
 }

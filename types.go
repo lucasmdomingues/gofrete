@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-const WSCORREIOS_FRETE = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?"
+const wsFretePrefix = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?"
 
 type Frete struct {
 	CdEmpresa          string `xml:"nCdEmpresa"`
@@ -91,7 +91,7 @@ func (f *Frete) NewURL() string {
 	values["sCdAvisoRecebimento"] = f.CdAvisoRecebimento
 	values["StrRetorno"] = "xml"
 
-	url := WSCORREIOS_FRETE
+	url := wsFretePrefix
 	for key, value := range values {
 		url += fmt.Sprintf("%s=%s&", key, value)
 	}

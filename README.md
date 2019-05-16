@@ -3,6 +3,12 @@
 go get github.com/lucasmdomingues/gofrete
 ```
 
+### Códigos de servico dos correios populares
+* 41106 PAC
+* 40010 SEDEX
+* 40045 SEDEX a Cobrar
+* 40215 SEDEX 10
+
 ### Exemplo
 ```go
 package main
@@ -15,15 +21,21 @@ import (
 
 func main() {
 
-	frete := gofrete.NewFrete("", "", "40010", "07748415", "02019010",
+	frete := gofrete.NewFrete("09146920", "123456", "4001", "07748415", "02019010",
 		"0.100", "1", "16", "11", "11", "11", "S", "100", "S")
 
-	resultado, err := gofrete.CalcFrete(frete)
+	resultado, err := frete.CalcFrete()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Printf("%#v\n", resultado)
+	json, err := resultado.JSON()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(json)
 }
 ```
