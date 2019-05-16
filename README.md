@@ -21,7 +21,7 @@ import (
 
 func main() {
 
-	frete := gofrete.NewFrete("09146920", "123456", "4001", "07748415", "02019010",
+	frete := gofrete.NewFrete("09146920", "123456", "40010", "07748415", "02019010",
 		"0.100", "1", "16", "11", "11", "11", "S", "100", "S")
 
 	resultado, err := frete.CalcFrete()
