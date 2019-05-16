@@ -39,6 +39,7 @@ func main() {
 	fmt.Println(json)
 }
 ```
+### Resultado
 ```json
 {
   "Codigo": "40010",
