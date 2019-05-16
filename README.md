@@ -39,3 +39,6 @@ func main() {
 	fmt.Println(json)
 }
 ```
+```json
+{"Codigo":"40010","Valor":"33,96","PrazoEntrega":"1","ValorMaoPropria":"6,80","ValorAvisoRecebimento":"5,75","ValorValorDeclarado":"1,61","EntregaDomiciliar":"S","EntregaSabado":"S","Erro":"0","MsgErro":"","ValorSemAdicionais":"19,80","ObsFim":""}
+```
