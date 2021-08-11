@@ -2,10 +2,7 @@ package gofrete
 
 import (
 	"encoding/xml"
-	"fmt"
 )
-
-const wsFretePrefix = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?"
 
 type Frete struct {
 	CdEmpresa          string `xml:"nCdEmpresa"`
@@ -26,19 +23,15 @@ type Frete struct {
 }
 
 type Resultado struct {
-	XMLName  xml.Name `xml:"cResultado"`
-	Servicos Servicos `xml:"Servicos"`
-}
-
-type Servicos struct {
-	XMLName xml.Name  `xml:"Servicos"`
-	Servico []Servico `xml:"cServico"`
+	XMLName  xml.Name `xml:"Servicos"`
+	Servicos Servico  `xml:"cServico"`
 }
 
 type Servico struct {
 	Codigo                string `xml:"Codigo"`
 	Valor                 string `xml:"Valor"`
 	PrazoEntrega          string `xml:"PrazoEntrega"`
+	ValorSemAdicionais    string `xml:"ValorSemAdicionais"`
 	ValorMaoPropria       string `xml:"ValorMaoPropria"`
 	ValorAvisoRecebimento string `xml:"ValorAvisoRecebimento"`
 	ValorValorDeclarado   string `xml:"ValorValorDeclarado"`
@@ -46,13 +39,10 @@ type Servico struct {
 	EntregaSabado         string `xml:"EntregaSabado"`
 	Erro                  string `xml:"Erro"`
 	MsgErro               string `xml:"MsgErro"`
-	ValorSemAdicionais    string `xml:"ValorSemAdicionais"`
-	ObsFim                string `xml:"obsFim"`
 }
 
 func NewFrete(cdEmpresa, dsSenha, cdServico, cepOrigem, cepDestino, vlPeso, cdFormato, vlComprimento, vlAltura,
 	vlLargura, vlDiametro, cdMaoPropria, vlValorDeclarado, cdAvisoRecebimento string) *Frete {
-
 	return &Frete{
 		CdEmpresa:          cdEmpresa,
 		DsSenha:            dsSenha,
@@ -69,32 +59,4 @@ func NewFrete(cdEmpresa, dsSenha, cdServico, cepOrigem, cepDestino, vlPeso, cdFo
 		VlValorDeclarado:   vlValorDeclarado,
 		CdAvisoRecebimento: cdAvisoRecebimento,
 	}
-}
-
-func (f *Frete) NewURL() string {
-
-	values := make(map[string]string)
-
-	values["nCdEmpresa"] = f.CdEmpresa
-	values["sDsSenha"] = f.DsSenha
-	values["nCdServico"] = f.CdServico
-	values["sCepOrigem"] = f.CepOrigem
-	values["sCepDestino"] = f.CepDestino
-	values["nVlPeso"] = f.VlPeso
-	values["nCdFormato"] = f.CdFormato
-	values["nVlComprimento"] = f.VlComprimento
-	values["nVlAltura"] = f.VlAltura
-	values["nVlLargura"] = f.VlLargura
-	values["nVlDiametro"] = f.VlDiametro
-	values["sCdMaoPropria"] = f.CdMaoPropria
-	values["nVlValorDeclarado"] = f.VlValorDeclarado
-	values["sCdAvisoRecebimento"] = f.CdAvisoRecebimento
-	values["StrRetorno"] = "xml"
-
-	url := wsFretePrefix
-	for key, value := range values {
-		url += fmt.Sprintf("%s=%s&", key, value)
-	}
-
-	return url
 }

@@ -1,61 +1,84 @@
 package gofrete
 
 import (
-	"encoding/json"
 	"encoding/xml"
-	"fmt"
-	"io/ioutil"
+	"errors"
 	"net/http"
+	"net/url"
+	"path"
+
+	"golang.org/x/net/html/charset"
 )
 
-func (frete *Frete) CalcFrete() (*Resultado, error) {
+type Service interface {
+	Calculate(frete *Frete) (*Resultado, error)
+}
 
-	url := frete.NewURL()
+type service struct {
+	BaseURL url.URL
+}
 
-	req, err := http.NewRequest("GET", url, nil)
+func NewService() Service {
+	return &service{
+		BaseURL: url.URL{
+			Scheme: "https",
+			Host:   "ws.correios.com.br",
+			Path:   "calculador/",
+		},
+	}
+}
+
+func (s *service) Calculate(frete *Frete) (*Resultado, error) {
+	url, err := s.BaseURL.Parse(path.Join("CalcPrecoPrazo.aspx"))
 	if err != nil {
 		return nil, err
 	}
 
+	q := url.Query()
+	q.Add("nCdEmpresa", frete.CdEmpresa)
+	q.Add("sDsSenha", frete.DsSenha)
+	q.Add("nCdServico", frete.CdServico)
+	q.Add("sCepOrigem", frete.CepOrigem)
+	q.Add("sCepDestino", frete.CepDestino)
+	q.Add("nVlPeso", frete.VlPeso)
+	q.Add("nCdFormato", frete.CdFormato)
+	q.Add("nVlComprimento", frete.VlComprimento)
+	q.Add("nVlAltura", frete.VlAltura)
+	q.Add("nVlLargura", frete.VlLargura)
+	q.Add("nVlDiametro", frete.VlDiametro)
+	q.Add("sCdMaoPropria", frete.CdMaoPropria)
+	q.Add("nVlValorDeclarado", frete.VlValorDeclarado)
+	q.Add("sCdAvisoRecebimento", frete.CdAvisoRecebimento)
+	q.Add("StrRetorno", "xml")
+
+	url.RawQuery = q.Encode()
+
+	req, err := http.NewRequest("GET", url.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 	req.Header.Set("Content-type", "application/xml")
 
-	client := &http.Client{}
+	var client http.Client
 
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
 
-	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("Erro: %s", resp.Status)
-	}
+	decoder := xml.NewDecoder(resp.Body)
+	decoder.CharsetReader = charset.NewReaderLabel
 
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	var resultado Resultado
+
+	err = decoder.Decode(&resultado)
 	if err != nil {
 		return nil, err
 	}
 
-	resultado := Resultado{}
-
-	err = xml.Unmarshal(body, &resultado)
-	if err != nil {
-		return nil, err
-	}
-
-	if resultado.Servicos.Servico[0].Erro != "0" && resultado.Servicos.Servico[0].Erro != "011" {
-		return nil, fmt.Errorf("Erro: %s", resultado.Servicos.Servico[0].MsgErro)
+	if resultado.Servicos.Erro != "0" && resultado.Servicos.Erro != "011" {
+		return nil, errors.New(resultado.Servicos.MsgErro)
 	}
 
 	return &resultado, nil
-}
-
-func (r *Resultado) JSON() (string, error) {
-
-	bytes, err := json.Marshal(r.Servicos.Servico[0])
-	if err != nil {
-		return "Error on parse json", err
-	}
-
-	return string(bytes), nil
 }
